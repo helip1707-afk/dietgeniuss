@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>📊 Your Report</h1>
+
+    <!-- 👋 Greeting -->
+    <h2>👋 Hello {{ name }}!</h2>
+
+    <!-- 🔢 BMI -->
+    <h2 style="color:
+    {% if bmi < 18.5 %}blue
+    {% elif bmi < 25 %}green
+    {% elif bmi < 30 %}orange
+    {% else %}red
+    {% endif %};">
+        BMI: <span id="bmiValue">0</span> ({{ category }})
+    </h2>
+
+    <!-- 📌 Info -->
+    <p><strong>BMR:</strong> {{ bmr }} kcal/day</p>
+    <p><strong>TDEE:</strong> {{ tdee }} kcal/day</p>
+
+    <!-- 🎯 GOAL FORM (ONLY ONE) -->
+    <form action="/goal" method="POST">
+
+    <!-- hidden -->
+    <input type="hidden" name="weight" value="{{ weight }}">
+    <input type="hidden" name="tdee" value="{{ tdee }}">
+
+    <!-- goal dropdown -->
+    <select name="goal" required>
+        <option value="">Select Goal</option>
+        <option value="maintain">Maintain Weight</option>
+        <option value="mild">Mild Weight Loss</option>
+        <option value="loss">Weight Loss</option>
+        <option value="extreme">Extreme Weight Loss</option>
+    </select>
+
+    <!-- 🔥 ADD THESE 2 INPUTS -->
+    <input type="number" name="goal_weight" placeholder="Enter Goal Weight (kg)" required>
+
+    <input type="number" name="duration" placeholder="Duration (weeks)" required>
+
+    <!-- button -->
+    <button type="submit">🎯 Get Plan</button>
+
+</form>
+
+    <!-- 💡 Health Advice (KEEP SAME) -->
+    <div class="advice-box">
+        <h3>💡 Health Advice</h3>
+        <p>{{ diet_advice }}</p>
+
+        <!-- ✅ NEW HEALTH INFO -->
+        <p>✅ Healthy BMI Range: 18.5 - 24.9</p>
+        <p>⚖️ Healthy Weight: {{ min_weight }} kg - {{ max_weight }} kg</p>
+        <p>🎯 {{ goal_msg }}</p>
+    </div>
+
+    <a href="/">⬅ Back</a>
+
+</div>
+
+<script>
+let count = 0;
+let target = {{ bmi | tojson }};
+let speed = 30;
+
+let counter = setInterval(() => {
+    count += 0.5;
+    document.getElementById("bmiValue").innerText = count.toFixed(1);
+
+    if(count >= target){
+        document.getElementById("bmiValue").innerText = target;
+        clearInterval(counter);
+    }
+}, speed);
+</script>
+
+</body>
+</html>

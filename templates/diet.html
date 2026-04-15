@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Diet Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .meal-box {
+            text-align: left;
+            margin-top: 15px;
+        }
+
+        .meal {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>🍽 Smart Diet Planner</h1>
+
+    <!-- 🥗 VEG / NON-VEG -->
+    <div class="toggle-container">
+        <button class="toggle-btn active" onclick="setType('veg', this)">🥦 Veg</button>
+        <button class="toggle-btn" onclick="setType('nonveg', this)">🍗 Non-Veg</button>
+    </div>
+
+    <!-- 📅 DAY SELECT -->
+    <div class="day-container">
+        <button class="day-btn" onclick="showDay('monday', this)">Mon</button>
+        <button class="day-btn" onclick="showDay('tuesday', this)">Tue</button>
+        <button class="day-btn" onclick="showDay('wednesday', this)">Wed</button>
+        <button class="day-btn" onclick="showDay('thursday', this)">Thu</button>
+        <button class="day-btn" onclick="showDay('friday', this)">Fri</button>
+        <button class="day-btn" onclick="showDay('saturday', this)">Sat</button>
+        <button class="day-btn" onclick="showDay('sunday', this)">Sun</button>
+    </div>
+
+    <!-- 🍽 PLAN -->
+    <div id="plan" class="meal-box"></div>
+
+    <a href="/" class="btn">⬅ Back</a>
+
+</div>
+
+<script>
+let currentType = "veg";
+let userCalories = {{ tdee }};
+
+// 🍽 DIFFERENT MEALS FOR ALL DAYS
+const vegMeals = {
+    monday: ["Oats + Milk", "Dal Roti", "Fruits", "Rice Sabji"],
+    tuesday: ["Poha", "Veg Rice", "Nuts", "Roti Sabji"],
+    wednesday: ["Upma", "Dal Rice", "Fruits", "Khichdi"],
+    thursday: ["Idli", "Roti Sabji", "Soup", "Rice"],
+    friday: ["Oats", "Khichdi", "Fruits", "Roti Sabji"],
+    saturday: ["Poha", "Pulao", "Nuts", "Roti Sabji"],
+    sunday: ["Dosa", "Paneer Rice", "Juice", "Light Dinner"]
+};
+
+const nonVegMeals = {
+    monday: ["Eggs", "Chicken Rice", "Shake", "Chicken Roti"],
+    tuesday: ["Omelette", "Fish Curry", "Boiled Eggs", "Chicken Rice"],
+    wednesday: ["Egg Sandwich", "Chicken Biryani", "Shake", "Grilled Chicken"],
+    thursday: ["Boiled Eggs", "Fish Rice", "Nuts", "Chicken Curry"],
+    friday: ["Omelette", "Chicken Wrap", "Shake", "Fish Fry"],
+    saturday: ["Egg Toast", "Chicken Biryani", "Shake", "Grilled Chicken"],
+    sunday: ["Egg Roll", "Mutton Curry", "Juice", "Light Chicken Meal"]
+};
+
+// 🔥 MACROS
+function getMacros(cal) {
+    return {
+        protein: ((cal * 0.3) / 4).toFixed(1),
+        carbs: ((cal * 0.4) / 4).toFixed(1),
+        fat: ((cal * 0.3) / 9).toFixed(1)
+    };
+}
+
+// 🥗 TOGGLE VEG/NONVEG
+function setType(type, btn) {
+    currentType = type;
+
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+// 📅 DAY CLICK
+function showDay(day, btn) {
+
+    // highlight day
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const plan = document.getElementById("plan");
+
+    // 🔥 animation reset
+    plan.style.opacity = 0;
+
+    setTimeout(() => {
+
+        // calories split
+        let breakfastCal = Math.round(userCalories * 0.25);
+        let lunchCal = Math.round(userCalories * 0.35);
+        let snacksCal = Math.round(userCalories * 0.15);
+        let dinnerCal = Math.round(userCalories * 0.25);
+
+        let meals = currentType === "veg" ? vegMeals[day] : nonVegMeals[day];
+
+        if (!meals) {
+            plan.innerHTML = "<p>No data</p>";
+            return;
+        }
+
+        let b = getMacros(breakfastCal);
+        let l = getMacros(lunchCal);
+        let s = getMacros(snacksCal);
+        let d = getMacros(dinnerCal);
+
+        plan.innerHTML = `
+        <div class="meal"><strong>🍳 Breakfast</strong><br>${meals[0]}<br>🔥 ${breakfastCal} kcal<br>🥩 ${b.protein}g | 🍞 ${b.carbs}g | 🧈 ${b.fat}g</div>
+        <div class="meal"><strong>🍛 Lunch</strong><br>${meals[1]}<br>🔥 ${lunchCal} kcal<br>🥩 ${l.protein}g | 🍞 ${l.carbs}g | 🧈 ${l.fat}g</div>
+        <div class="meal"><strong>🍿 Snacks</strong><br>${meals[2]}<br>🔥 ${snacksCal} kcal<br>🥩 ${s.protein}g | 🍞 ${s.carbs}g | 🧈 ${s.fat}g</div>
+        <div class="meal"><strong>🍽 Dinner</strong><br>${meals[3]}<br>🔥 ${dinnerCal} kcal<br>🥩 ${d.protein}g | 🍞 ${d.carbs}g | 🧈 ${d.fat}g</div>
+        <div class="meal">🔥 Total: ${userCalories} kcal</div>
+        `;
+
+        // fade in animation
+        plan.style.opacity = 1;
+
+    }, 200);
+}
+</script>
+
+</body>
+</html>

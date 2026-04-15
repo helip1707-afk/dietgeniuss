@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diet Plan Result</title>
+
+    <!-- ✅ CSS LINK -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>🔥 Your Diet Plan</h1>
+
+        <div class="result-box">
+            <p><strong>Calories:</strong> {{ calories }} kcal/day</p>
+            <p><strong>Protein:</strong> {{ protein }} g/day</p>
+            <p><strong>Carbohydrates:</strong> {{ carbs }} g/day</p>
+            <p><strong>Fat:</strong> {{ fat }} g/day</p>
+            
+
+<div class="advice-box">
+    <h3>🏋Exercise Plan</h3>
+    <p>{{ exercise }}</p>
+</div>
+            <a href="/diet?tdee={{ calories }}" class="btn">📅 View Weekly Diet Plan</a>
+            
+        </div>
+
+        <a href="/" class="btn">⬅ Back</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
