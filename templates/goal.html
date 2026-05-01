@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Your Plan</h3>
-
-<p>Calories: {{calories}}</p>
+<h3>Calories: {{calories}}</h3>
 <p>Protein: {{protein}}</p>
 <p>Carbs: {{carbs}}</p>
 <p>Fat: {{fat}}</p>
 
-<a href="/plan"><button>View 30 Day Plan</button></a>
+<h3>Track Weight</h3>
+<form action="/track" method="POST">
+<input name="name" placeholder="Name">
+<input name="weight" placeholder="Today's Weight">
+<button>Save</button>
+</form>
+
+<a href="/plan"><button>View Plan</button></a>
 
 {% endblock %}
