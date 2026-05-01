@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>{{name}} Progress</h3>
+
+<canvas id="chart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+new Chart(document.getElementById("chart"), {
+    type:"line",
+    data:{
+        labels: {{dates | tojson}},
+        datasets:[{
+            label:"Weight",
+            data: {{weights | tojson}}
+        }]
+    }
+});
+</script>
+
+{% endblock %}
