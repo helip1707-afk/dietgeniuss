@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Hello {{name}}</h2>
+<h3>Hello {{name}}</h3>
 
 <p>BMI: {{bmi}}</p>
-<p>Category: {{category}}</p>
+<p>{{category}}</p>
 <p>TDEE: {{tdee}}</p>
 
 <form action="/goal" method="POST">
-    <input type="hidden" name="weight" value="{{bmi}}">
-    <input type="hidden" name="tdee" value="{{tdee}}">
+<input type="hidden" name="weight" value="{{weight}}">
+<input type="hidden" name="tdee" value="{{tdee}}">
 
-    <input name="goal_weight" placeholder="Goal Weight">
-    <input name="duration" placeholder="Duration (weeks)">
+<input name="goal_weight" placeholder="Goal Weight">
+<input name="duration" placeholder="Weeks">
 
-    <button>Get Plan</button>
+<button>Get Plan</button>
 </form>
 
 {% endblock %}
