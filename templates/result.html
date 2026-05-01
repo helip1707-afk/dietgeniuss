@@ -3,9 +3,14 @@
 
 <h3>Hello {{name}}</h3>
 
-<p>BMI: {{bmi}}</p>
-<p>{{category}}</p>
+<p>BMI: {{bmi}} ({{category}})</p>
 <p>TDEE: {{tdee}}</p>
+
+<h3>💡 Suggestion</h3>
+<p>{{suggestion}}</p>
+
+<h3>🏋️ Workout</h3>
+<p>{{workout}}</p>
 
 <form action="/goal" method="POST">
 <input type="hidden" name="weight" value="{{weight}}">
