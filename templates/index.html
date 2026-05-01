@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Start Your Fitness Journey</h1>
+<h2>Fitness Tracker</h2>
 
 <form action="/calculate" method="POST">
-    <input name="name" placeholder="Name" required>
-    <input name="weight" placeholder="Weight (kg)" required>
-    <input name="height" placeholder="Height (cm)" required>
-    <input name="age" placeholder="Age" required>
+<input name="name" placeholder="Name">
+<input name="weight" placeholder="Weight">
+<input name="height" placeholder="Height">
+<input name="age" placeholder="Age">
 
-    <select name="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-    </select>
+<select name="gender">
+<option value="male">Male</option>
+<option value="female">Female</option>
+</select>
 
-    <select name="activity">
-        <option value="sedentary">Sedentary</option>
-        <option value="light">Light</option>
-        <option value="moderate">Moderate</option>
-        <option value="active">Active</option>
-    </select>
+<select name="activity">
+<option value="sedentary">Sedentary</option>
+<option value="light">Light</option>
+<option value="moderate">Moderate</option>
+<option value="active">Active</option>
+</select>
 
-    <button>Calculate</button>
+<button>Calculate</button>
 </form>
 
 {% endblock %}
