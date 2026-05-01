@@ -8,6 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+
 # 🔹 CALCULATE
 @app.route('/calculate', methods=['POST'])
 def calculate():
@@ -48,12 +49,14 @@ def calculate():
 
     return render_template("result.html",
         name=name,
+        weight=weight,
         bmi=round(bmi,2),
         category=category,
         tdee=round(tdee,2)
     )
 
-# 🔹 GOAL
+
+# 🔹 GOAL PLAN
 @app.route('/goal', methods=['POST'])
 def goal():
 
@@ -76,10 +79,38 @@ def goal():
         fat=round(fat,2)
     )
 
-# 🔹 DIET PAGE
-@app.route('/diet')
-def diet():
-    return render_template("diet.html")
+
+# 🔹 30 DAY + 7 DAY PLAN
+@app.route('/plan')
+def plan():
+
+    workout_plan = [
+        {"day": i+1, "task": task} for i, task in enumerate([
+            "Full Body Stretch + Walk",
+            "Cardio (Jumping + Skipping)",
+            "Upper Body Workout",
+            "Lower Body Workout",
+            "Core (Abs)",
+            "Yoga",
+            "Rest"
+        ] * 4 + ["HIIT", "Full Body Challenge"])
+    ]
+
+    diet_plan = {
+        "Monday": ["Poha + Tea", "Roti + Sabji + Dal", "Khichdi"],
+        "Tuesday": ["Upma", "Rice + Dal", "Paneer"],
+        "Wednesday": ["Oats", "Roti + Veg", "Dal Rice"],
+        "Thursday": ["Paratha + Curd", "Sabji", "Khichdi"],
+        "Friday": ["Idli", "Rajma Rice", "Roti Veg"],
+        "Saturday": ["Daliya", "Roti Dal", "Soup"],
+        "Sunday": ["Light + Cheat Meal", "Light Lunch", "Salad"]
+    }
+
+    return render_template("plan.html",
+        workout_plan=workout_plan,
+        diet_plan=diet_plan
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
