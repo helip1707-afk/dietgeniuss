@@ -2,15 +2,13 @@
 {% block content %}
 
 <h3>30 Day Workout</h3>
-
-{% for day in workout_plan %}
-<p>Day {{day.day}} - {{day.task}}</p>
+{% for d in workout_plan %}
+<p>Day {{d.day}} - {{d.task}}</p>
 {% endfor %}
 
 <h3>7 Day Diet</h3>
-
 {% for day, meal in diet_plan.items() %}
-<p>{{day}}: {{meal[0]}}, {{meal[1]}}, {{meal[2]}}</p>
+<p>{{day}}: {{meal[0]}}, {{meal[1]}, {{meal[2]}}</p>
 {% endfor %}
 
 {% endblock %}
