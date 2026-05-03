@@ -1,27 +1,63 @@
-{% extends 'base.html' %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Health Calculator</title>
 
-<h2>💪 Fitness Tracker</h2>
+    <!-- ✅ CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<form action="/calculate" method="POST">
-<input name="name" placeholder="Name">
-<input name="weight" placeholder="Weight">
-<input name="height" placeholder="Height">
-<input name="age" placeholder="Age">
+    <!-- ✅ FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
 
-<select name="gender">
-<option value="male">Male</option>
-<option value="female">Female</option>
-</select>
+<body>
 
-<select name="activity">
-<option value="sedentary">Sedentary</option>
-<option value="light">Light</option>
-<option value="moderate">Moderate</option>
-<option value="active">Active</option>
-</select>
+<div class="card">
 
-<button>Calculate</button>
-</form>
+    <!-- 🎯 TITLE -->
+    <h1>💪 BMI & Health Calculator</h1>
 
-{% endblock %}
+    <form action="/calculate" method="POST">
+
+        <!-- 🔥 INPUT GRID -->
+        <div class="form-grid">
+
+            <input type="text" name="name" placeholder="Enter your name" required>
+
+            <input type="number" name="weight" placeholder="Weight (kg)" required>
+
+            <input type="number" name="height" placeholder="Height (cm)" required>
+
+            <input type="number" name="age" placeholder="Age" required>
+
+        </div>
+
+        <!-- 🔥 DROPDOWN ROW -->
+        <div class="form-grid">
+
+            <select name="gender" required>
+                <option value="">Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <select name="activity" required>
+                <option value="">Activity</option>
+                <option value="sedentary">Sedentary</option>
+                <option value="light">Light</option>
+                <option value="moderate">Moderate</option>
+                <option value="active">Active</option>
+                <option value="very">Very Active</option>
+            </select>
+
+        </div>
+
+        <!-- 🚀 BUTTON -->
+        <button type="submit">Calculate</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
