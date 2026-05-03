@@ -1,18 +1,29 @@
-{% extends 'base.html' %}
-{% block content %}
+/* 🔥 FIX GOAL PAGE OVERLAP COMPLETELY */
 
-<h3>Calories: {{calories}}</h3>
-<p>Protein: {{protein}}</p>
-<p>Carbs: {{carbs}}</p>
-<p>Fat: {{fat}}</p>
+/* Grid layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
 
-<h3>Track Weight</h3>
-<form action="/track" method="POST">
-<input name="name" placeholder="Name">
-<input name="weight" placeholder="Today's Weight">
-<button>Save</button>
-</form>
+/* All inputs same size */
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
 
-<a href="/plan"><button>View Plan</button></a>
+    border-radius: 8px;
+    border: none;
 
-{% endblock %}
+    background: rgba(255,255,255,0.2);
+    color: white;
+
+    box-sizing: border-box;
+}
+
+/* Make duration full row */
+.full-width {
+    grid-column: span 2;
+}
