@@ -1,25 +1,95 @@
-{% extends 'base.html' %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Health Report</title>
 
-<h3>Hello {{name}}</h3>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
 
-<p>BMI: {{bmi}} ({{category}})</p>
-<p>TDEE: {{tdee}}</p>
+<body>
 
-<h3>💡 Suggestion</h3>
-<p>{{suggestion}}</p>
+<div class="card">
 
-<h3>🏋️ Workout</h3>
-<p>{{workout}}</p>
+    <h1>📊 Your Report</h1>
 
-<form action="/goal" method="POST">
-<input type="hidden" name="weight" value="{{weight}}">
-<input type="hidden" name="tdee" value="{{tdee}}">
+    <!-- 👋 Greeting -->
+    <h2>👋 Hello {{ name }}!</h2>
 
-<input name="goal_weight" placeholder="Goal Weight">
-<input name="duration" placeholder="Weeks">
+    <!-- 🔢 BMI -->
+    <h2 style="color:
+    {% if bmi < 18.5 %}blue
+    {% elif bmi < 25 %}green
+    {% elif bmi < 30 %}orange
+    {% else %}red
+    {% endif %};">
+        BMI: <span id="bmiValue">0</span> ({{ category }})
+    </h2>
 
-<button>Get Plan</button>
-</form>
+    <!-- 📌 BASIC INFO -->
+    <div class="result-box">
+        <p><strong>BMR:</strong> {{ bmr }} kcal/day</p>
+        <p><strong>TDEE:</strong> {{ tdee }} kcal/day</p>
+    </div>
 
-{% endblock %}
+    <!-- 🎯 GOAL FORM -->
+    <form action="/goal" method="POST">
+
+        <!-- hidden values -->
+        <input type="hidden" name="bmi" value="{{ bmi }}">
+        <input type="hidden" name="weight" value="{{ weight }}">
+        <input type="hidden" name="tdee" value="{{ tdee }}">
+
+        <!-- GRID -->
+        <div class="form-grid">
+
+            <select name="goal" required>
+                <option value="">Select Goal</option>
+                <option value="maintain">Maintain Weight</option>
+                <option value="loss">Weight Loss</option>
+                <option value="gain">Weight Gain</option>
+            </select>
+
+            <input type="number" name="goal_weight" placeholder="Goal Weight (kg)" required>
+
+            <input type="number" name="duration" placeholder="Duration (weeks)" required class="full-width">
+
+        </div>
+
+        <button type="submit">🎯 Get Plan</button>
+
+    </form>
+
+    <!-- 💡 HEALTH ADVICE -->
+    <div class="advice-box">
+        <h3>💡 Health Advice</h3>
+        <p>{{ diet_advice }}</p>
+
+        <p>✅ Healthy BMI Range: 18.5 - 24.9</p>
+        <p>⚖️ Healthy Weight: {{ min_weight }} kg - {{ max_weight }} kg</p>
+        <p>🎯 {{ goal_msg }}</p>
+    </div>
+
+    <a href="/" class="btn">⬅ Back</a>
+
+</div>
+
+<!-- 🔢 BMI ANIMATION -->
+<script>
+let count = 0;
+let target = {{ bmi | tojson }};
+let speed = 20;
+
+let counter = setInterval(() => {
+    count += 0.5;
+    document.getElementById("bmiValue").innerText = count.toFixed(1);
+
+    if (count >= target) {
+        document.getElementById("bmiValue").innerText = target;
+        clearInterval(counter);
+    }
+}, speed);
+</script>
+
+</body>
+</html>
