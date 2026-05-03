@@ -1,29 +1,39 @@
-/* 🔥 FIX GOAL PAGE OVERLAP COMPLETELY */
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diet Plan Result</title>
 
-/* Grid layout */
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
+    <!-- ✅ CSS LINK -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-/* All inputs same size */
-.form-grid input,
-.form-grid select {
-    width: 100%;
-    height: 45px;
-    padding: 10px;
+<div class="container">
 
-    border-radius: 8px;
-    border: none;
+    <div class="card">
 
-    background: rgba(255,255,255,0.2);
-    color: white;
+        <h1>🔥 Your Diet Plan</h1>
 
-    box-sizing: border-box;
-}
+        <div class="result-box">
+            <p><strong>Calories:</strong> {{ calories }} kcal/day</p>
+            <p><strong>Protein:</strong> {{ protein }} g/day</p>
+            <p><strong>Carbohydrates:</strong> {{ carbs }} g/day</p>
+            <p><strong>Fat:</strong> {{ fat }} g/day</p>
+            
 
-/* Make duration full row */
-.full-width {
-    grid-column: span 2;
-}
+<div class="advice-box">
+    <h3>🏋Exercise Plan</h3>
+    <p>{{ exercise }}</p>
+</div>
+            <a href="/diet?tdee={{ calories }}" class="btn">📅 View Weekly Diet Plan</a>
+            
+        </div>
+
+        <a href="/" class="btn">⬅ Back</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
