@@ -1,12 +1,104 @@
-{% extends 'base.html' %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Diet Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
-<h2>Weekly Diet Plan</h2>
+<body>
 
-<ul>
-    <li>Breakfast: Poha + Tea</li>
-    <li>Lunch: Roti + Sabji + Dal</li>
-    <li>Dinner: Khichdi + Salad</li>
-</ul>
+<div class="card">
 
-{% endblock %}
+    <h1>🍽 Smart Diet Planner</h1>
+
+    <!-- VEG / NON VEG -->
+    <div class="toggle-container">
+        <button class="toggle-btn active" onclick="setType('veg', this)">🥦 Veg</button>
+        <button class="toggle-btn" onclick="setType('nonveg', this)">🍗 Non-Veg</button>
+    </div>
+
+    <!-- DAYS -->
+    <div class="day-container">
+        <button class="day-btn" onclick="showDay('monday', this)">Mon</button>
+        <button class="day-btn" onclick="showDay('tuesday', this)">Tue</button>
+        <button class="day-btn" onclick="showDay('wednesday', this)">Wed</button>
+        <button class="day-btn" onclick="showDay('thursday', this)">Thu</button>
+        <button class="day-btn" onclick="showDay('friday', this)">Fri</button>
+        <button class="day-btn" onclick="showDay('saturday', this)">Sat</button>
+        <button class="day-btn" onclick="showDay('sunday', this)">Sun</button>
+    </div>
+
+    <div id="plan"></div>
+
+    <a href="/" class="btn">⬅ Back</a>
+
+</div>
+
+<script>
+
+let currentType = "veg";
+let userCalories = {{ request.args.get('calories', 2000) }};
+
+// DATA
+const vegMeals = {
+    monday: ["Oats", "Dal Roti", "Fruits", "Rice Sabji"],
+    tuesday: ["Poha", "Veg Rice", "Nuts", "Roti Sabji"],
+    wednesday: ["Upma", "Dal Rice", "Fruits", "Khichdi"],
+    thursday: ["Idli", "Roti Sabji", "Soup", "Rice"],
+    friday: ["Oats", "Khichdi", "Fruits", "Roti Sabji"],
+    saturday: ["Poha", "Pulao", "Nuts", "Roti Sabji"],
+    sunday: ["Dosa", "Paneer Rice", "Juice", "Light Dinner"]
+};
+
+const nonVegMeals = {
+    monday: ["Eggs", "Chicken Rice", "Shake", "Chicken Roti"],
+    tuesday: ["Omelette", "Fish Curry", "Eggs", "Chicken Rice"],
+    wednesday: ["Egg Sandwich", "Chicken Biryani", "Shake", "Grilled Chicken"],
+    thursday: ["Eggs", "Fish Rice", "Nuts", "Chicken Curry"],
+    friday: ["Omelette", "Chicken Wrap", "Shake", "Fish Fry"],
+    saturday: ["Egg Toast", "Chicken Biryani", "Shake", "Grilled Chicken"],
+    sunday: ["Egg Roll", "Mutton Curry", "Juice", "Light Chicken"]
+};
+
+// TOGGLE TYPE
+function setType(type, btn) {
+    currentType = type;
+
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    showDay('monday', document.querySelector('.day-btn'));
+}
+
+// SHOW DAY
+function showDay(day, btn) {
+
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    let meals = currentType === "veg" ? vegMeals[day] : nonVegMeals[day];
+    let plan = document.getElementById("plan");
+
+    let b = Math.round(userCalories * 0.25);
+    let l = Math.round(userCalories * 0.35);
+    let s = Math.round(userCalories * 0.15);
+    let d = Math.round(userCalories * 0.25);
+
+    plan.innerHTML = `
+        <div class="meal">🍳 ${meals[0]} - ${b} kcal</div>
+        <div class="meal">🍛 ${meals[1]} - ${l} kcal</div>
+        <div class="meal">🍿 ${meals[2]} - ${s} kcal</div>
+        <div class="meal">🍽 ${meals[3]} - ${d} kcal</div>
+        <div class="meal">🔥 Total ${userCalories} kcal</div>
+    `;
+}
+
+// AUTO LOAD
+window.onload = function () {
+    showDay('monday', document.querySelector('.day-btn'));
+};
+
+</script>
+
+</body>
+</html>
